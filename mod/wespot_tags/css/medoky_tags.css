@@ -1,0 +1,28 @@
+#tags_container {
+  border: 1px solid gray;
+  border-radius: 5px;
+  min-height: 2em;
+}
+
+.medoky_tag {
+  display: inline-block;
+  border: 2px solid #1d3e6c;
+  border-radius: 10px;
+  margin: 6px;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+	
+.medoky_tag:HOVER {
+  display: inline-block;
+  border: 2px solid #1d3e6c;
+  border-radius: 10px;
+  margin: 6px;
+  padding-left: 6px;
+  padding-right: 6px;
+  cursor:pointer;
+  -moz-box-shadow: 0 0 3px 3px #4777b8;
+  -webkit-box-shadow: 0 0 3px 3px #4777b8;
+  box-shadow: 0 0 3px 3px #4777b8;
+}

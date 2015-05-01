@@ -1,0 +1,32 @@
+= Version history: =
+
+0.6 (2013-06-27):
+
+- added: last updated / create text to default search results
+- added: optional combined search features to merge object results
+- changed: merged tag search in entity search
+
+0.5 (2013-05-06):
+
+- added: comments search
+- fixed: user search now also search profile fields (like core search does also)
+- fixed: duplicate result set if object type was specified
+- fixed: correct check for multisite flag
+
+0.4 (2013-04-05):
+
+- added: multiple tags search
+- fixed: some php notices
+
+0.3 (2012-12-11):
+
+- added: keyword autocompletion for global tags and site categories plugin
+
+0.2 (2012-08-07):
+
+- added: multisite search features
+- fixed: some search fixes
+
+0.1 (2012-04-12):
+
+- first release

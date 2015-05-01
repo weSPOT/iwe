@@ -1,0 +1,385 @@
+<?php
+/**
+ * Elgg Pages
+ *
+ * @package ElggPages
+ */
+
+elgg_register_event_handler('init', 'system', 'notes_init');
+
+/**
+ * Initialize the pages plugin.
+ *
+ */
+function notes_init() {
+
+	// register a library of helper functions
+	elgg_register_library('elgg:notes', elgg_get_plugins_path() . 'wespot_notes/lib/pages.php');
+
+	$item = new ElggMenuItem('notes', elgg_echo('notes'), 'notes/all');
+	elgg_register_menu_item('site', $item);
+
+	// Register a page handler, so we can have nice URLs
+	elgg_register_page_handler('notes', 'notes_page_handler');
+
+	// Register a url handler
+	elgg_register_entity_url_handler('object', 'notes_top', 'notes_url');
+	elgg_register_entity_url_handler('object', 'notes', 'notes_url');
+	elgg_register_annotation_url_handler('notes', 'notes_revision_url');
+
+	// Register some actions
+	$action_base = elgg_get_plugins_path() . 'wespot_notes/actions';
+	elgg_register_action("notes/edit", "$action_base/notes/edit.php");
+	elgg_register_action("notes/delete", "$action_base/notes/delete.php");
+	elgg_register_action("annotations/notes/delete", "$action_base/annotations/notes/delete.php");
+
+	// Extend the main css view
+	elgg_extend_view('css/elgg', 'pages/css');
+
+	// Register javascript needed for sidebar menu
+	$js_url = 'mod/wespot_notes/vendors/jquery-treeview/jquery.treeview.min.js';
+	elgg_register_js('jquery-treeview', $js_url);
+	$css_url = 'mod/wespot_notes/vendors/jquery-treeview/jquery.treeview.css';
+	elgg_register_css('jquery-treeview', $css_url);
+
+	// Register entity type for search
+	elgg_register_entity_type('object', 'notes');
+	elgg_register_entity_type('object', 'notes_top');
+
+	// Register granular notification for this type
+	register_notification_object('object', 'notes', elgg_echo('notes:new'));
+	register_notification_object('object', 'notes_top', elgg_echo('notes:new'));
+	elgg_register_plugin_hook_handler('notify:entity:message', 'object', 'notes_notify_message');
+
+	// add to groups
+//	add_group_tool_option('notes', elgg_echo('groups:enablenotes'), true);
+	elgg_extend_view('groups/tool_latest', 'notes/group_module');
+
+	//add a widget
+	elgg_register_widget_type('notes', elgg_echo('notes'), elgg_echo('notes:widget:description'), "all,groups");
+
+	// Language short codes must be of the form "pages:key"
+	// where key is the array key below
+	elgg_set_config('notes', array(
+		'title' => 'text',
+		'description' => 'longtext',
+		'tags' => 'tags',
+		'parent_guid' => 'parent',
+		'access_id' => 'access',
+		'write_access_id' => 'write_access',
+	));
+
+//	elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'notes_owner_block_menu');
+
+	// write permission plugin hooks
+	elgg_register_plugin_hook_handler('permissions_check', 'object', 'notes_write_permission_check');
+	elgg_register_plugin_hook_handler('container_permissions_check', 'object', 'notes_container_permission_check');
+
+	// icon url override
+	elgg_register_plugin_hook_handler('entity:icon:url', 'object', 'notes_icon_url_override');
+
+	// entity menu
+	elgg_register_plugin_hook_handler('register', 'menu:entity', 'notes_entity_menu_setup');
+
+	// hook into annotation menu
+	elgg_register_plugin_hook_handler('register', 'menu:annotation', 'pages_annotation_menu_setup');
+
+	// register ecml views to parse
+	elgg_register_plugin_hook_handler('get_views', 'ecml', 'notes_ecml_views_hook');
+
+	elgg_register_event_handler('upgrade', 'system', 'notes_run_upgrades');
+}
+
+/**
+ * Dispatcher for pages.
+ * URLs take the form of
+ *  All pages:        pages/all
+ *  User's pages:     pages/owner/<username>
+ *  Friends' pages:   pages/friends/<username>
+ *  View page:        pages/view/<guid>/<title>
+ *  New page:         pages/add/<guid> (container: user, group, parent)
+ *  Edit page:        pages/edit/<guid>
+ *  History of page:  pages/history/<guid>
+ *  Revision of page: pages/revision/<id>
+ *  Group pages:      pages/group/<guid>/all
+ *
+ * Title is ignored
+ *
+ * @param array $page
+ * @return bool
+ */
+function notes_page_handler($page) {
+
+	elgg_load_library('elgg:notes');
+
+	if (!isset($page[0])) {
+		$page[0] = 'all';
+	}
+
+	elgg_push_breadcrumb(elgg_echo('groups'), 'groups/all');
+	$group = elgg_get_page_owner_entity();
+	if (elgg_instanceof($group, 'group')) {
+		$tab_url = '';
+		$phase = $_GET['phase'];
+    if(!$phase) { $phase = get_entity($page[1])->phase; }
+		if($phase) {
+			$profiles = elgg_get_entities(array('types' => 'object', 'subtypes' => 'tabbed_profile', 'container_guid' => $group->guid));
+			foreach ($profiles as $profile) {
+				if($profile->order == $phase) {
+					$tab_url = '/tab/' . $profile->guid;
+				}
+			}
+		}
+		elgg_push_breadcrumb($group->name, $group->getURL() . $tab_url);
+	}
+
+	$base_dir = elgg_get_plugins_path() . 'wespot_notes/pages/pages';
+
+	$page_type = $page[0];
+	switch ($page_type) {
+		case 'owner':
+			include "$base_dir/owner.php";
+			break;
+		case 'friends':
+			include "$base_dir/friends.php";
+			break;
+		case 'view':
+			set_input('guid', $page[1]);
+			include "$base_dir/view.php";
+			break;
+		case 'add':
+			set_input('guid', $page[1]);
+			include "$base_dir/new.php";
+			break;
+		case 'edit':
+			set_input('guid', $page[1]);
+			include "$base_dir/edit.php";
+			break;
+		case 'group':
+			include "$base_dir/owner.php";
+			break;
+		case 'history':
+			set_input('guid', $page[1]);
+			include "$base_dir/history.php";
+			break;
+		case 'revision':
+			set_input('id', $page[1]);
+			include "$base_dir/revision.php";
+			break;
+		case 'all':
+			include "$base_dir/world.php";
+			break;
+		default:
+			return false;
+	}
+	return true;
+}
+
+/**
+ * Override the page url
+ *
+ * @param ElggObject $entity Page object
+ * @return string
+ */
+function notes_url($entity) {
+	$title = elgg_get_friendly_title($entity->title);
+	return "notes/view/$entity->guid/$title";
+}
+
+/**
+ * Override the page annotation url
+ *
+ * @param ElggAnnotation $annotation
+ * @return string
+ */
+function notes_revision_url($annotation) {
+	return "notes/revision/$annotation->id";
+}
+
+/**
+ * Override the default entity icon for pages
+ *
+ * @return string Relative URL
+ */
+function notes_icon_url_override($hook, $type, $returnvalue, $params) {
+	$entity = $params['entity'];
+	if (elgg_instanceof($entity, 'object', 'notes_top') ||
+		elgg_instanceof($entity, 'object', 'notes')) {
+		switch ($params['size']) {
+			case 'topbar':
+			case 'tiny':
+			case 'small':
+				return 'mod/wespot_notes/images/pages.gif';
+				break;
+			default:
+				return 'mod/wespot_notes/images/pages_lrg.gif';
+				break;
+		}
+	}
+}
+
+/**
+ * Add a menu item to the user ownerblock
+ */
+function notes_owner_block_menu($hook, $type, $return, $params) {
+	if (elgg_instanceof($params['entity'], 'user')) {
+		$url = "notes/owner/{$params['entity']->username}";
+		$item = new ElggMenuItem('notes', elgg_echo('notes'), $url);
+		$return[] = $item;
+	} else {
+		if ($params['entity']->pages_enable != "no") {
+			$url = "notes/group/{$params['entity']->guid}/all";
+			$item = new ElggMenuItem('notes', elgg_echo('notes:group'), $url);
+			$return[] = $item;
+		}
+	}
+
+	return $return;
+}
+
+/**
+ * Add links/info to entity menu particular to pages plugin
+ */
+function notes_entity_menu_setup($hook, $type, $return, $params) {
+	if (elgg_in_context('widgets')) {
+		return $return;
+	}
+
+	$entity = $params['entity'];
+	$handler = elgg_extract('handler', $params, false);
+	if ($handler != 'notes') {
+		return $return;
+	}
+
+	// remove delete if not owner or admin
+	if (!elgg_is_admin_logged_in() && elgg_get_logged_in_user_guid() != $entity->getOwnerGuid()) {
+		foreach ($return as $index => $item) {
+			if ($item->getName() == 'delete') {
+				unset($return[$index]);
+			}
+		}
+	}
+
+	$options = array(
+		'name' => 'history',
+		'text' => elgg_echo('pages:history'),
+		'href' => "notes/history/$entity->guid",
+		'priority' => 150,
+	);
+	$return[] = ElggMenuItem::factory($options);
+
+	return $return;
+}
+
+/**
+* Returns a more meaningful message
+*
+* @param unknown_type $hook
+* @param unknown_type $entity_type
+* @param unknown_type $returnvalue
+* @param unknown_type $params
+*/
+function notes_notify_message($hook, $entity_type, $returnvalue, $params) {
+	$entity = $params['entity'];
+	$to_entity = $params['to_entity'];
+	$method = $params['method'];
+
+	if (elgg_instanceof($entity, 'object', 'notes') || elgg_instanceof($entity, 'object', 'notes_top')) {
+		$descr = $entity->description;
+		$title = $entity->title;
+		$owner = $entity->getOwnerEntity();
+
+		return elgg_echo('notes:notification', array(
+			$owner->name,
+			$title,
+			$descr,
+			$entity->getURL()
+		));
+	}
+	return null;
+}
+
+/**
+ * Extend permissions checking to extend can-edit for write users.
+ *
+ * @param string $hook
+ * @param string $entity_type
+ * @param bool   $returnvalue
+ * @param array  $params
+ */
+function notes_write_permission_check($hook, $entity_type, $returnvalue, $params) {
+	if ($params['entity']->getSubtype() == 'notes'
+		|| $params['entity']->getSubtype() == 'notes_top') {
+
+		$write_permission = $params['entity']->write_access_id;
+		$user = $params['user'];
+
+		if ($write_permission && $user) {
+			switch ($write_permission) {
+				case ACCESS_PRIVATE:
+					// Elgg's default decision is what we want
+					return;
+					break;
+				case ACCESS_FRIENDS:
+					$owner = $params['entity']->getOwnerEntity();
+					if ($owner && $owner->isFriendsWith($user->guid)) {
+						return true;
+					}
+					break;
+				default:
+					$list = get_access_array($user->guid);
+					if (in_array($write_permission, $list)) {
+						// user in the access collection
+						return true;
+					}
+					break;
+			}
+		}
+	}
+}
+
+/**
+ * Extend container permissions checking to extend can_write_to_container for write users.
+ *
+ * @param unknown_type $hook
+ * @param unknown_type $entity_type
+ * @param unknown_type $returnvalue
+ * @param unknown_type $params
+ */
+function notes_container_permission_check($hook, $entity_type, $returnvalue, $params) {
+
+	if (elgg_get_context() == "notes") {
+		if (elgg_get_page_owner_guid()) {
+			if (can_write_to_container(elgg_get_logged_in_user_guid(), elgg_get_page_owner_guid())) return true;
+		}
+		if ($page_guid = get_input('page_guid',0)) {
+			$entity = get_entity($page_guid);
+		} else if ($parent_guid = get_input('parent_guid',0)) {
+			$entity = get_entity($parent_guid);
+		}
+		if ($entity instanceof ElggObject) {
+			if (
+					can_write_to_container(elgg_get_logged_in_user_guid(), $entity->container_guid)
+					|| in_array($entity->write_access_id,get_access_list())
+				) {
+					return true;
+			}
+		}
+	}
+
+}
+
+/**
+ * Return views to parse for pages.
+ *
+ * @param unknown_type $hook
+ * @param unknown_type $entity_type
+ * @param unknown_type $return_value
+ * @param unknown_type $params
+ */
+function notes_ecml_views_hook($hook, $entity_type, $return_value, $params) {
+	$return_value['object/notes'] = elgg_echo('item:object:notes');
+	$return_value['object/notes_top'] = elgg_echo('item:object:notes_top');
+
+	return $return_value;
+}

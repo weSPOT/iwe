@@ -1,0 +1,84 @@
+.medoky_recommendation {
+  vertical-align: middle;
+  padding-right: 0.5em;
+}
+
+.medoky_star {
+  vertical-align: top;
+  display: inline-block;
+}
+
+/* .fresh { */
+/*   background-color: #ffffcc !important; */
+/*   color: black !important; */
+/* } */
+
+.medoky_recommendation_ok {
+  padding-left: 25px;
+}
+
+.medoky_recommendation_title {
+  width: 380px;
+  display: inline-block;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.medoky_main {
+  display: none;
+}
+
+.pointy {
+  cursor: pointer;
+}
+
+.rec {
+  background-color: lightgray;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  padding-right: 2px;
+  border: 1px solid grey;
+  border-radius: 0.5em;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 4px;
+  color: #222;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.rec:hover {
+  background-color: #4674B8;
+  color: white;
+}
+
+.medoky_recommendation_detail {
+  background-color: white;
+  color: #222;
+  display: block;
+  margin-left: 1em;
+  margin-bottom: 1em;
+  margin-top: 0.5em;
+  padding: 0.2em;
+  padding-bottom: 0.5em;
+  border: 1px solid grey;
+  border-radius: 0.5em;
+  overflow-y: auto;
+  max-height: 60px;
+  font-size: 10pt;
+  display: block;
+  cursor: default;
+}
+
+#medoky_recommendation_detail_footer {
+  font-size: 10pt;
+  position: absolute;
+  bottom: 1em;
+  display:none;
+}
+
+#dia_medoky_detail {
+  font-size: 10.5pt;
+}

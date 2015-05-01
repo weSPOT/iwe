@@ -1,0 +1,501 @@
+[
+  {
+    "name": "question/hypothesis",
+    "tasks": [
+      {
+        "name": "embedding",
+        "skills": [
+          "critical thinking",
+          "critical thinking (comprehension)"
+        ],
+        "activity": "Providing a wonder-moment, a 'my theory is' (idea) and/or formulating a good hypothesis",
+        "title": "Wonder moment",
+        "widget": "answers",
+        "activity_id": "95c48",
+        "order": 1
+      },
+      {
+        "name": "context",
+        "skills": [
+          "research (observation)"
+        ],
+        "activity": "Conducting a search for sources / literature research",
+        "title": "Specify context",
+        "widget": "notes",
+        "activity_id": "34c01",
+        "order": 2
+      },
+      {
+        "name": "existing knowledge",
+        "skills": [
+          "information literacy (existing knowledge, learning, argumentation)"
+        ],
+        "activity": "Literature research/ describing 'what we (already) know'",
+        "title": "Existing knowledge",
+        "widget": "filerepo",
+        "activity_id": "ee417",
+        "order": 3
+      },
+      {
+        "name": "mental representation",
+        "skills": [
+          "critical thinking (comprehension)",
+          "metacognitive"
+        ],
+        "activity": "Concept mapping",
+        "title": "Concept map",
+        "widget": "wespot_mindmeister",
+        "activity_id": "a70c2",
+        "order": 4
+      },
+      {
+        "name": "language",
+        "skills": [
+          "critical thinking (comprehension, argumentation)",
+          "information literacy (existing knowledge, learning, argumentation)",
+          "communication (language)"
+        ],
+        "activity": "Concept defining",
+        "title": "Definitions of concepts",
+        "widget": "notes",
+        "activity_id": "8ccac",
+        "order": 5
+      },
+      {
+        "name": "meaning of empirical",
+        "skills": [
+          "critical thinking",
+          "analytical"
+        ],
+        "activity": "Describing 'what we (still) need to know'",
+        "title": "Need to know",
+        "widget": "answers",
+        "column": 2,
+        "activity_id": "501e9",
+        "order": 6
+      },
+      {
+        "name": "reflection on question",
+        "skills": [
+          "critical thinking",
+          "metacognitive",
+          "critical thinking (evaluation)"
+        ],
+        "activity": "Understanding different kinds of scientific questions and examining and evaluating this aspect of the learning experience",
+        "title": "Phase 1 Reflection",
+        "widget": "reflection",
+        "column": 2,
+        "activity_id": "cc56d",
+        "order": 7
+      }
+    ],
+    "phase": 1
+  },
+  {
+    "name": "operationalisation / planning the method",
+    "tasks": [
+      {
+        "name": "indicators",
+        "skills": [
+          "information literacy (existing kowledge, learning, argumentation)"
+        ],
+        "activity": "Coming up with indicators for concepts that can be measured to develop or test ideas (and relationships among them)",
+        "title": "Indicators for measuring",
+        "widget": "notes",
+        "activity_id": "54ab1",
+        "order": 1
+      },
+      {
+        "name": "predictions",
+        "skills": [
+          "critical thinking",
+          "analytical",
+          "critical thinking (inferring)"
+        ],
+        "activity": "Formulating hypotheses and coming up with alternative hypotheses",
+        "title": "Prediction",
+        "widget": "hypothesis",
+        "activity_id": "777e6",
+        "order": 2
+      },
+      {
+        "name": "resources",
+        "skills": [
+          "information literacy (existing knowledge, learning)"
+        ],
+        "activity": "Come up with resources and ways how to measure/ instruments (qualitative and quantitative)",
+        "title": "Planning the method",
+        "widget": "group_forum_topics",
+        "activity_id": "9d701",
+        "order": 3
+      },
+      {
+        "name": "methodology",
+        "skills": [
+          "critical thinking",
+          "research (observation)"
+        ],
+        "activity": "Set up experiments to test hypotheses or set up other inquiry procedure",
+        "title": "Methodology",
+        "widget": "filerepo",
+        "activity_id": "ba472",
+        "order": 4
+      },
+      {
+        "name": "ethics",
+        "skills": [
+          "information literacy (existing knowledge, learning)"
+        ],
+        "activity": "Showing ethical concern within research setup",
+        "title": "Ethical concerns",
+        "widget": "group_forum_topics",
+        "column": 2,
+        "activity_id": "9a600",
+        "order": 5
+      },
+      {
+        "name": "reflection on operationalisation",
+        "skills": [
+          "critical thinking",
+          "metacognitive",
+          "critical thinking (evaluation)"
+        ],
+        "activity": "Checking and coming up with alternative operationalisations and methods, and examining and evaluating this aspect of the learning experience",
+        "title": "Phase 2 Reflection",
+        "widget": "reflection",
+        "column": 2,
+        "activity_id": "f468a",
+        "order": 6
+      }
+    ],
+    "phase": 2
+  },
+  {
+    "name": "data collection",
+    "tasks": [
+      {
+        "name": "information foraging",
+        "skills": [
+          "information literacy (exisiting knowledge, learning)",
+          "computer/technical",
+          "research (scientific)"
+        ],
+        "activity": "Collecting data with (measurable) indicators to develop or test ideas/beliefs",
+        "title": "Collect information",
+        "widget": "wespot_arlearn",
+        "activity_id": "890b2",
+        "order": 1
+      },
+      {
+        "name": "systematic observation",
+        "skills": [
+          "research (observation)",
+          "research (experimentation)"
+        ],
+        "activity": "Using authoritative resources, systematic measuring of qualitative and quantitative measures (controlling the experiment to minimize alternative influences)",
+        "title": "Systematic data collection",
+        "widget": "group_forum_topics",
+        "activity_id": "d2186",
+        "order": 2
+      },
+      {
+        "name": "experimentation",
+        "skills": [
+          "research",
+          "research (experimentation)"
+        ],
+        "activity": "Testing a hypothesis/ideas",
+        "title": "Description of experiment",
+        "widget": "filerepo",
+        "activity_id": "70cd4",
+        "order": 3
+      },
+      {
+        "name": "tools (data collection)",
+        "skills": [
+          "computer/technical"
+        ],
+        "activity": "Using appropriate tools to collect data with",
+        "title": "Description of data collection tools",
+        "widget": "filerepo",
+        "activity_id": "67ae7",
+        "order": 4
+      },
+      {
+        "name": "data storage",
+        "skills": [
+          "computer/technical"
+        ],
+        "activity": "Collecting evidence",
+        "title": "Evidence",
+        "widget": "filerepo",
+        "activity_id": "59155",
+        "order": 5
+      },
+      {
+        "name": "data security",
+        "skills": [
+          "computer/technical"
+        ],
+        "activity": "Taking privacy of data into consideration",
+        "title": "Inquiry discussion (data privacy)",
+        "widget": "group_forum_topics",
+        "column": 2,
+        "activity_id": "37009",
+        "order": 6
+      },
+      {
+        "name": "documentation",
+        "skills": [
+          "communication (language)",
+          "computer/technical",
+          "communication (writing)"
+        ],
+        "activity": "Careful record keeping of methods and findings",
+        "title": "Followed data collection methods",
+        "widget": "filerepo",
+        "column": 2,
+        "activity_id": "02ca5",
+        "order": 7
+      },
+      {
+        "name": "reflection on data collection",
+        "skills": [
+          "critical thinking",
+          "metacognitive",
+          "critical thinking (evaluation)"
+        ],
+        "activity": "Reflecting on what knowledge was gained and what has not been collected yet, and examining and evaluating this aspect of the learning experience",
+        "title": "Phase 3 Reflection",
+        "widget": "reflection",
+        "column": 2,
+        "activity_id": "78da0",
+        "order": 8
+      }
+    ],
+    "phase": 3
+  },
+  {
+    "name": "data analysis",
+    "tasks": [
+      {
+        "name": "quantitative",
+        "skills": [
+          "analytical (quantitative analysis)",
+          "analytical (statistical)",
+          "analytical (mathematical)"
+        ],
+        "activity": "Processing measures taken",
+        "title": "Calculations done on data",
+        "widget": "notes",
+        "activity_id": "39748",
+        "order": 1
+      },
+      {
+        "name": "qualitative",
+        "skills": [
+          "analytical (statistical)",
+          "analytical (mathematical)",
+          "analytical (qualitative analysis)"
+        ],
+        "activity": "Processing the measured perceptions of phenomena, e.g. extracting theme's, clustering",
+        "title": "Procedure of categorizing data",
+        "widget": "notes",
+        "activity_id": "e2ec4",
+        "order": 2
+      },
+      {
+        "name": "tools (data analysis)",
+        "skills": [
+          "computer/technical"
+        ],
+        "activity": "Using data analysis tools, like spreadsheets, tables",
+        "title": "Analysed data",
+        "widget": "filerepo",
+        "activity_id": "4db46",
+        "order": 3
+      },
+      {
+        "name": "visualisation",
+        "skills": [
+          "critical thinking (comprehension)",
+          "computer/technical"
+        ],
+        "activity": "Using graphs or other visualisations",
+        "title": "Graphs/visualisations of data",
+        "widget": "filerepo",
+        "column": 2,
+        "activity_id": "e0ab6",
+        "order": 4
+      },
+      {
+        "name": "reflection on data analysis",
+        "skills": [
+          "critical thinking",
+          "critical thinking(evaluation)",
+          "metacognitive"
+        ],
+        "activity": "Checking the analyses and coming up with alternatives, and examining and evaluating this aspect of the learning experience",
+        "title": "Phase 4 Reflections",
+        "widget": "reflection",
+        "column": 2,
+        "activity_id": "10e92",
+        "order": 5
+      }
+    ],
+    "phase": 4
+  },
+  {
+    "name": "interpretation",
+    "tasks": [
+      {
+        "name": "embedding",
+        "skills": [
+          "critical thinking (comprehension)",
+          "information literacy (existing knowledge, learning)",
+          "critical thinking (inferring)",
+          "analytical (classification)"
+        ],
+        "activity": "Interpreting findings in light of previous knowledge",
+        "title": "Fit of findings fit with existing knowledge",
+        "widget": "group_forum_topics",
+        "activity_id": "9de8c",
+        "order": 1
+      },
+      {
+        "name": "confirmation/falsification",
+        "skills": [
+          "critical thinking (evaluation)",
+          "research (experimentation)",
+          "analytical (statistical)",
+          "analytical (mathematical)"
+        ],
+        "activity": "Judging evidence and counterevidence",
+        "title": "Counterevidence",
+        "widget": "group_forum_topics",
+        "activity_id": "7de90",
+        "order": 2
+      },
+      {
+        "name": "relevance",
+        "skills": [
+          "critical thinking",
+          "analytical"
+        ],
+        "activity": "Making sure the results are relevant to the problem",
+        "title": "Relevance of results to problem",
+        "widget": "filerepo",
+        "activity_id": "9f692",
+        "order": 3
+      },
+      {
+        "name": "reflection of interpretation",
+        "skills": [
+          "critical thinking",
+          "metacognitive",
+          "critical thinking (evaluation)"
+        ],
+        "activity": "Checking the interpretation (process) and coming up with alternatives, and examining and evaluating this aspect of the learning experience",
+        "title": "Phase 5 Reflections",
+        "widget": "reflection",
+        "column": 2,
+        "activity_id": "9141b",
+        "order": 4
+      }
+    ],
+    "phase": 5
+  },
+  {
+    "name": "communication",
+    "tasks": [
+      {
+        "name": "writing up",
+        "skills": [
+          "communication (language)",
+          "communication (writing)"
+        ],
+        "activity": "Presenting the findings in clear, written form",
+        "title": "Conclusion",
+        "widget": "conclusions",
+        "activity_id": "84127",
+        "order": 1
+      },
+      {
+        "name": "strategy",
+        "skills": [
+          "research (planning)",
+          "research (organisation)"
+        ],
+        "activity": "Considering impact, content, routes and stakeholders",
+        "title": "Impact, stakeholders",
+        "widget": "group_forum_topics",
+        "activity_id": "d7ab2",
+        "order": 2
+      },
+      {
+        "name": "audience",
+        "skills": [
+          "analytical",
+          "analytical (classification)",
+          "research (planning)"
+        ],
+        "activity": "Determining the audience and adjusting presentation mode accordingly",
+        "title": "Describe the kind of audiences you will present findings to",
+        "widget": "notes",
+        "activity_id": "8fdf7",
+        "order": 3
+      },
+      {
+        "name": "tools",
+        "skills": [
+          "computer/technical"
+        ],
+        "activity": "Using technical tools for communicating results",
+        "title": "Which technical tools can we use to communicate our results?",
+        "widget": "notes",
+        "activity_id": "2b513",
+        "order": 4
+      },
+      {
+        "name": "discussion/argumentation",
+        "skills": [
+          "communication",
+          "critical thinking"
+        ],
+        "activity": "Discussing the findings in a critical manner (e.g. implicaitons, limitations of approach, lessons for future studies)",
+        "title": "Implications, limitations, lessons learned",
+        "widget": "group_forum_topics",
+        "column": 2,
+        "activity_id": "d35e3",
+        "order": 5
+      },
+      {
+        "name": "feedback",
+        "skills": [
+          "communication"
+        ],
+        "activity": "Providing feedback on findings of others",
+        "title": "Feedback",
+        "widget": "filerepo",
+        "column": 2,
+        "activity_id": "27e25",
+        "order": 6
+      },
+      {
+        "name": "reflection",
+        "skills": [
+          "critical thinking",
+          "metacognitive",
+          "critical thinking (evaluation)"
+        ],
+        "activity": "Checking the method of communication and coming up with alternative approaches, and examining and evaluating this aspect of the learning experience",
+        "title": "Phase 6 Reflection",
+        "widget": "reflection",
+        "column": 2,
+        "activity_id": "8c283",
+        "order": 7
+      }
+    ],
+    "phase": 6
+  }
+]

@@ -1,0 +1,39 @@
+== VERSION HISTORY ==
+
+x.x (mm/dd/yyyy):
+
+1.7 ():
+ - prevent js injection in iframe tab
+ - fix widget layout when group default tab is renamed
+
+1.6 (12/20/2012):
+ - fixes tab limit enforcement (thanks to RiverVanRain)
+ - fixes profile layout for groups using iframe with sidebar
+ - adds title menu to groups one_column layout without sidebar
+
+1.5 (12/11/2012):
+ - overwrites page/layouts/widgets/add_panel to allow WM to control which widgets are active
+ - fixes white screen on admin default widgets form
+ - sets default metadata on tabs created prior to 1.2
+
+1.4 (12/06/2012):
+ - fixes user url generation issue
+
+1.3 (12/03/2012):
+ - fixes deletion of widgets on profile tab deletion
+ - fixes default profile access when private profiles disabled and name changed
+
+1.2 (11/20/2012):
+ - makes widget manager a required dependency
+ - fixes language string for profile tab deletion
+ - changes the method for widget context determination
+ - makes tab creation/edit form more logical for groups with widgets disabled
+ - adds profile widgets for various portions of the profile - additional flexibility
+ - fixes issue with profile edit redirection
+
+1.1 (10/29/2012):
+ - fixes issue with widget context on group profiles
+ - fixes issue with selected tab display on default group url
+
+1.0 (10/22/2012):
+ - initial release

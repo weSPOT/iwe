@@ -1,0 +1,27 @@
+
+.elgg-list {
+    padding: 2% 0;
+}
+
+.elgg-list > li {
+    /* Problem: http://stackoverflow.com/questions/11434756/css-float-elements-with-unequal-heights-left-and-up-in-grid */
+    float: left;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 2%;
+    width: 30%;
+    border-bottom: 0;
+}
+
+.elgg-list > li:nth-child(3n+1) {
+    clear: both;
+} 
+
+.elgg-list audio {
+    width: 100%;
+}
+
+.elgg-pagination {
+    clear: both;
+    padding-top: 10px;
+}

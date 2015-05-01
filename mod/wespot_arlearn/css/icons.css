@@ -1,0 +1,48 @@
+.small {
+    width: 48px;
+}
+
+.medium {
+    width: 64px;
+}
+
+.large {
+    width: 128px;
+}
+
+.tiny {
+    width: 22px;
+}
+
+
+/* Precedence over the size-related styles from above */
+
+.landscape {
+    width: 100%;
+}
+
+.portrait {
+    height: 120px;
+    width: auto;
+}
+
+video.portrait {
+    height: 90px; 
+}
+
+/* Needed because Firefox sometimes does not trigger the "loadedmetadata" event properly. */
+video.temporary {
+    height: 90px; 
+}
+
+/*
+ To also rotate the controls, better to have external controls.
+ http://blog.teamtreehouse.com/building-custom-controls-for-html5-videos
+*//*
+video.portrait {
+	-moz-transform:rotate(-90deg);
+	-webkit-transform:rotate(-90deg);
+	-o-transform:rotate(-90deg);
+	-ms-transform:rotate(-90deg);
+	transform:rotate(-90deg);
+}*/

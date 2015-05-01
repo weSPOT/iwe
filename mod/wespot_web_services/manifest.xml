@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin_manifest>
+        <field key="author" value="Alexander Mikroyannidis" />
+        <field key="version" value="0.1" />
+        <field key="description" value="weSPOT web services plugin." />
+        <field key="website" value="http://wespot-project.eu" />
+        <field key="copyright" value="(C) Knowledge Media Institute, The Open University" />
+        <!--<field key="licence" value="not specified by now" />-->
+        <field key="elgg_version" value="2010030101" />
+</plugin_manifest>
