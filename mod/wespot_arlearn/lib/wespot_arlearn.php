@@ -57,10 +57,13 @@ function checkARLearnForGame($guid, $forceUpdate=false) {
 // Things I have discovered:
 //  * The RunId response from ARLearn contains 'responses'.
 //    * In these 'responses' items we have 'generalItemId' and 'responseId'.
-//  * arleangame->owner_guid points to a inquiry object
+//  * arleangame
+//    * owner_guid points to a inquiry object
+//    * arlearn_runid which can be matched with the 'runId'
+//    * arlearn_gameid which can be matched with the 'gameId'
 //  * arlearntask_top object (a collection) has:
 //    * an arlearn_id which can be matched with the 'generalItemId'
-//    * an arlearn_gameid which can be matched with
+//    * an arlearn_gameid which can be matched with the gameId.
 //  * arlearntask object (an item in the collection) has:
 //     * an arlearn_id which can be matched with the 'responseId'.
 //     * an runid which can be matched with the runId
@@ -551,10 +554,7 @@ function wespot_arlearn_upsert_task($data, $game, $group) {
   $task->description = $data->richText;
   $task->task_type = '';
 
-  if ($data->openQuestion->withAudio) {
-    $task_type = 'audio';
-  } 
-  else if ($data->openQuestion->withText) {
+  if ($data->openQuestion->withText) {
     $task_type = 'text';  
   }
   else if ($data->openQuestion->withValue) {
@@ -566,6 +566,9 @@ function wespot_arlearn_upsert_task($data, $game, $group) {
   else if ($data->openQuestion->withVideo) {
     $task_type = 'video';
   }
+  else if ($data->openQuestion->withAudio) {
+    $task_type = 'audio';
+  } 
   $task->task_type = $task_type;
 
   elgg_set_ignore_access(true);

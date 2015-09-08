@@ -103,5 +103,3 @@ if (elgg_is_logged_in() && can_write_to_container(0, $group->getGUID())) {
 }
 
 echo elgg_view_page($title, $body);
-
-?>

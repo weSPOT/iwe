@@ -27,10 +27,11 @@ function wespot_arlearn_init() {
 	elgg_register_entity_url_handler('object', 'arlearntask', 'wespot_arlearn_url');
 	elgg_register_annotation_url_handler('arlearntask', 'wespot_arlearn_revision_url');
 
-	// Register some actions
+	// Register some actions (action = what's called by a form)
 	$action_base = elgg_get_plugins_path() . 'wespot_arlearn/actions/wespot_arlearn';
-	elgg_register_action("wespot_arlearn/edit", "$action_base/edit.php");
-	elgg_register_action("wespot_arlearn/delete", "$action_base/delete.php");
+	elgg_register_action('wespot_arlearn/edit', "$action_base/edit.php");
+	elgg_register_action('wespot_arlearn/delete', "$action_base/delete.php");
+	elgg_register_action('wespot_arlearn/upload', "$action_base/upload.php");
 
 	// Extend the main css view
 	elgg_extend_view('css/elgg', 'wespot_arlearn/css');
@@ -76,15 +77,15 @@ function wespot_arlearn_init() {
 	elgg_register_plugin_hook_handler('permissions_check', 'object', 'wespot_arlearn_write_permission_check');
 	elgg_register_plugin_hook_handler('container_permissions_check', 'object', 'wespot_arlearn_container_permission_check');
 
+	// Access permissions
+	//elgg_register_plugin_hook_handler('access:collections:write', 'all', 'wespot_arlearn_write_acl_plugin_hook');
+	//elgg_register_plugin_hook_handler('access:collections:read', 'all', 'wespot_arlearn_read_acl_plugin_hook');
+
 	// icon url override
 	elgg_register_plugin_hook_handler('entity:icon:url', 'object', 'wespot_arlearn_icon_url_override');
 
 	// register ecml views to parse
 	elgg_register_plugin_hook_handler('get_views', 'ecml', 'wespot_arlearn_ecml_views_hook');
-
-	// Access permissions
-	//elgg_register_plugin_hook_handler('access:collections:write', 'all', 'wespot_arlearn_write_acl_plugin_hook');
-	//elgg_register_plugin_hook_handler('access:collections:read', 'all', 'wespot_arlearn_read_acl_plugin_hook');
 
 	// MB: NEW FOR WESPOT
 	// HANDLE GROUP ADD/EDIT AND DELETE TO TALK TO ARLEARN TO SETUP GAMES,RUNS AND PEOPLE
@@ -95,6 +96,9 @@ function wespot_arlearn_init() {
 	// This will happen before action completed
 	elgg_register_plugin_hook_handler("action", "groups/join", "wespot_arlearn_group_join_action_hook");
  	elgg_register_plugin_hook_handler("action", "groups/leave", "wespot_arlearn_group_leave_action_hook");
+
+ 	// To show errors in file upload forms
+ 	elgg_register_js('upload', 'mod/wespot_arlearn/js/file.upload.js');
 
  	// To relayout items in collections (see view.php)
 	elgg_register_css('custom_layout', 'mod/wespot_arlearn/css/layout.css');
@@ -180,6 +184,10 @@ function wespot_arlearn_page_handler($task) {
 			set_input('guid', $task[1]);
 			include "$base_dir/new.php";
 			break;
+		case 'add-item':
+			set_input('guid', $task[1]);
+			include "$base_dir/new-item.php";
+			break;
 		case 'edit':
 			set_input('guid', $task[1]);
 			include "$base_dir/edit.php";
@@ -245,7 +253,16 @@ function wespot_arlearn_icon_url_override($hook, $type, $returnvalue, $params) {
 	$type = $params['task_type'];
 	$img_path = 'mod/wespot_arlearn/images/';
 	if (elgg_instanceof($entity, 'object', 'arlearntask_top')) {
-		//if ($type == "collection") // FIXME Always same type expected, check it or not expect it.
+		$icons = array(
+			'picture'=>'collection_pictures.png',
+			'video'=>'collection_videos.png',
+			'audio'=>'collection_audios.png',
+			'text'=>'collection_texts.png',
+			'numeric'=>'collection_numbers.png'
+		);
+		if (array_key_exists($type, $icons)) {
+			return $img_path.$icons[$type];
+		}
 		return $img_path.'collection.png';		
 	} else if (elgg_instanceof($entity, 'object', 'arlearntask')) {
 		if ($type == 'picture') {
@@ -295,15 +312,6 @@ function wespot_arlearn_entity_menu_setup($hook, $type, $return, $params) {
 		return $return;
 	}
 
-	// remove delete if not owner or admin
-	if (!elgg_is_admin_logged_in() && elgg_get_logged_in_user_guid() != $entity->getOwnerGuid()) {
-		foreach ($return as $index => $item) {
-			if ($item->getName() == 'delete') {
-				unset($return[$index]);
-			}
-		}
-	}
-
 	$options = array(
 		'name' => 'history',
 		'text' => elgg_echo('wespot_arlearn:history'),
@@ -329,7 +337,16 @@ function wespot_arlearn_entity_menu_setup($hook, $type, $return, $params) {
                 'priority' => 250,
                 'title' => elgg_echo('wespot_arlearn:export:rebuild')
         );
-        $return[] = ElggMenuItem::factory($options);        
+        $return[] = ElggMenuItem::factory($options);
+
+        $options = array(
+                'name' => 'add_item',
+                'text' => "<span class=\"elgg-icon elgg-icon-add\"></span>",
+                'href' => "wespot_arlearn/add-item/$entity->guid",
+                'priority' => 250,
+                'title' => elgg_echo('wespot_arlearn:add:item')
+        );
+        $return[] = ElggMenuItem::factory($options);
     }
     
 	return $return;
@@ -372,13 +389,17 @@ function wespot_arlearn_write_permission_check($hook, $entity_type, $returnvalue
 		return true;
 	}
 
-	if ($params['entity']->getSubtype() == 'arlearntask_top') {
+	$subtype = $params['entity']->getSubtype();
+	if ($subtype=='arlearntask_top') {
+		$collection = $params['entity'];
+		$user = $params['user'];
+		return ($user->guid == $collection->owner_guid);
+	} else if ($subtype=='arlearntask') {
 		$task = $params['entity'];
 		$user = $params['user'];
-		return ($user->guid == $task->owner_guid);
-	} else if ($params['entity']->getSubtype() == 'arlearntask') {
-		return false;
-	} // else
+		$collection = get_entity($task->parent_guid);
+		return ($user->guid == $task->owner_guid || $user->guid == $collection->owner_guid);
+	}
 	return $returnvalue;
 }
 
@@ -396,7 +417,7 @@ function wespot_arlearn_container_permission_check($hook, $entity_type, $returnv
 		return true;
 	}
 
-	if (elgg_get_context() == "wespot_arlearn") {
+	if (elgg_get_context() == 'wespot_arlearn') {
 		if (elgg_get_page_owner_guid()) {
 			if (can_write_to_container(elgg_get_logged_in_user_guid(), elgg_get_page_owner_guid())) return true;
 		}

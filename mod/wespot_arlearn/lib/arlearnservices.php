@@ -7,7 +7,7 @@
 
 /** Turn debugging message on and off */
 global $debug_wespot_arlearn;
-$debug_wespot_arlearn = false;
+$debug_wespot_arlearn = true;
 
 /** The url for the ARLearn service calls */
 global $serviceRootARLearn;
@@ -307,23 +307,103 @@ function editARLearnTask($usertoken, $gameid, $title, $description, $tasktype, $
 	$data .= '}';
 	debugWespotARLearn('ADDING TASK: '.print_r($data, true));
 
-	$results = callARLearnAPI("POST", $url, $data, $usertoken);
+	$results = callARLearnAPI('POST', $url, $data, $usertoken);
 	debugWespotARLearn('ADDING TASK RESULTS: '.print_r($results, true));
 	return $results;
 }
 
 /**
- * Delete the data collection task with the given id number from the game with the given gameid on behlaf of the user with the given usertoekn.
+ * Delete the data collection task with the given id number from the game with the given gameid on behalf of the user with the given usertoken.
  * @param $usertoken the ARLearn user token to append to the app key when sending the onBehalfOf token (as created with function createARLearnUserToken)
  * @param $gameid the ARLearn Game id to remove the task from.
  * @param $taskid the ARLearn GeneralItem id of the task to delete.
  * @return false, if the attempt failed, else the response data from the ARLearn service call (will be a json string).
  */
-function deleteARLearnTask($usertoken, $gameid, $taskid) {
+function deleteARLearnTaskTop($usertoken, $gameid, $taskid) {
+	global $serviceRootARLearn;
+	$url = $serviceRootARLearn.'rest/generalItems/gameId/'.$gameid.'/generalItem/'.$taskid;
+	$results = callARLearnAPI('DELETE', $url, "", $usertoken);
+	return $results;
+}
+
+/**
+ * Delete an item from a data collection task with the given id responseId.
+ * @param $usertoken the ARLearn user token to append to the app key when sending the onBehalfOf token (as created with function createARLearnUserToken)
+ * @param $responseId the item in a game.
+ * @return false, if the attempt failed, else the response data from the ARLearn service call (will be a json string).
+ */
+function deleteARLearnTask($usertoken, $responseId) {
+	global $serviceRootARLearn;
+	$url = $serviceRootARLearn.'rest/response/responseId/'.$responseId;
+	$results = callARLearnAPI('DELETE', $url, "", $usertoken);
+	return $results;
+}
+
+/**
+ * Asks for an URL to upload a file.
+ * @param $userToken the ARLearn user token to append to the app key when sending the onBehalfOf token (as created with function createARLearnUserToken)
+ * @param $runId
+ * @param $fileName name of the file to be uploaded
+ * @return the URL where the file should be uploaded in a subsequent step.
+ */
+function createFileUploadURL($userToken, $runId, $fileName) {
+	global $serviceRootARLearn;
+	$url = $serviceRootARLearn.'uploadServiceWithUrl?runId='.$runId.'&account='.substr($userToken, 1).'&fileName='.$fileName;
+	$uploadUrl = callARLearnAPI('POST', $url, $data, $userToken);
+	return $uploadUrl;
+}
+
+/**
+ * Uploads file to the given URL.
+ * @param $url the url to use
+ * @param $file, the file to upload (as received in PHP's $_FILES array)
+ * @param $usertoken the ARLearn user token to append to the app key when sending the onBehalfOf token (as created with function createARLearnUserToken)
+ * @param $runId
+ * @return false, if the call failed, else the URL of the newly uploaded file.
+ */
+function uploadFile($url, $file, $userToken, $runId) {
+	global $serviceRootARLearn;
+	$response = callARLearnAPIPostFile($url, $file, $userToken);
+	if (!$response) return false;
+	return 'http://'.$serviceRootARLearn."uploadService/$runId/".substr($userToken, 1).'/'.$file['name'];
+}
+
+function getResponseValueField($type, $value) {
+	$possibleFields = array(
+		'picture' => 'imageUrl',
+		'video' => 'videoUrl',
+		'audio' => 'audioUrl',
+		'text' => 'text',
+		'numeric' => 'value');
+	$type = $possibleFields[$type];
+	// TODO is numeric also passed as String?
+	return '"{\"'.$type.'\": \"'.$value.'\"}"';
+}
+
+/**
+ * Create a new task on ARLearn.
+ * @param $usertoken the ARLearn user token to append to the app key when sending the onBehalfOf token (as created with function createARLearnUserToken)
+ * @param $runId
+ * @param $generalItemId
+ * @param $itemType 'text', 'numeric', 'video', 'audio' or 'picture'
+ * @param $itemValue value of the collection item to create (e.g., URL or a value)
+ * @return false, if the attempt failed, else the response data from the ARLearn service call (will be a json string).
+ */
+function createARLearnTask($usertoken, $runId, $generalItemId, $itemType, $itemValue) {
 	global $serviceRootARLearn;
 
-	$url = $serviceRootARLearn.'rest/generalItems/gameId/'.$gameid.'/generalItem/'.$taskid;
-	$results = callARLearnAPI("DELETE", $url, "", $usertoken);
+	// register task on ARLEarn
+	$url = $serviceRootARLearn.'rest/response';
+	// userEmail example: "5:username" (it's the user token without first ":")
+	$data = '{
+		 "type": "org.celstec.arlearn2.beans.run.Response",
+		 "userEmail": "'.substr($usertoken, 1).'",
+		 "runId": '.addcslashes($runId,"\"'\n").',
+		 "generalItemId": '.$generalItemId.',
+		 "responseValue": '.getResponseValueField($itemType, $itemValue).'
+	}';
+	$results = callARLearnAPI('POST', $url, $data, $usertoken);
+	//debugWespotARLearn(print_r($results, true));
 	return $results;
 }
 
@@ -350,7 +430,7 @@ function getARLearnRunResults($usertoken, $runid, $fromtime, $resumptiontoken=""
 }
 
 /**
- * Makes service calls using Curl for the parameters given
+ * Makes service call using Curl for the parameters given
  * @param $method POST/PUT/GET/DELETE
  * @param $url the url to use
  * @param $jsondata, the data to send to the url if any
@@ -358,9 +438,39 @@ function getARLearnRunResults($usertoken, $runid, $fromtime, $resumptiontoken=""
  * @return false, if the call failed, else the response data from the call (will be a json string).
  */
 function callARLearnAPI($method, $url, $jsondata, $usertoken="") {
+	$httpHeader = array(
+		'Content-Type: application/json',
+	    'Content-Length:'.strlen($jsondata));
+	return callARLearnAPIGeneral($method, $url, $jsondata, $httpHeader, $usertoken);
+}
+
+/**
+ * Makes service call (HTTP POST) using Curl for the parameters given
+ * @param $url the url to use
+ * @param $file, the file to upload (as received in PHP's $_FILES array)
+ * @param $usertoken the ARLearn user token to append to the app key when sending the onBehalfOf token (as created with function createARLearnUserToken)
+ * @return false, if the call failed, else the response data from the call.
+ */
+function callARLearnAPIPostFile($url, $file, $usertoken="") {
+	$httpHeader = array('Content-Type: multipart/form-data');
+	$filedata = $file['tmp_name'];
+	$postFields = array("filedata" => "@$filedata", "filename" => $file['name']);
+	return callARLearnAPIGeneral('POST', $url, $postFields, $httpHeader, $usertoken, $file['size']);
+}
+
+function callARLearnAPIGeneral($method, $url, $postdata, $httpHeader, $usertoken, $filesize=null) {
 	global $weSpotElggARLearnKey;
 
-	debugWespotARLearn("HTTP ".$method."  http://".$url." (body: ".$jsondata.")");
+	debugWespotARLearn("HTTP ".$method."  http://".$url);
+	if (is_array($postdata)) {
+		$data = '';
+		foreach ($postdata as $field) {
+			$data .= $field.'; ';
+		}
+		debugWespotARLearn("    (body: $data)");
+	} else {
+		debugWespotARLearn("    (body: $postdata)");
+	}
 
 	$curl = curl_init();
 	//For the record, when the webserver is behind a proxy we should use:
@@ -397,16 +507,18 @@ function callARLearnAPI($method, $url, $jsondata, $usertoken="") {
 	} else {
 		$sendkey = $weSpotElggARLearnKey;
 	}
+	array_push($httpHeader, 'Authorization: '.$sendkey);
 
 	//debugWespotARLearn('sendkey=: '.print_r($sendkey, true));
 
     curl_setopt($curl, CURLOPT_URL, $url);
-	curl_setopt($curl, CURLOPT_POSTFIELDS, $jsondata);
+	curl_setopt($curl, CURLOPT_POSTFIELDS, $postdata);
 	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-	    'Content-Type: application/json',
-	    'Authorization: '.$sendkey,
-	    'Content-Length:'.strlen($jsondata)));
+	curl_setopt($curl, CURLOPT_HTTPHEADER, $httpHeader);
+	if ($filesize!=null) {
+		curl_setopt($curl, CURLOPT_HEADER, true);
+		curl_setopt($curl, CURLOPT_INFILESIZE, $filesize);
+	}
 
 	$response = curl_exec($curl);
 	$httpCode = curl_getinfo( $curl, CURLINFO_HTTP_CODE );
