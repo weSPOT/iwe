@@ -15,6 +15,7 @@ require 'digest'
 # discussion
 # reflection
 # data_collection
+# bookmarks
 # fca
 
 # WARNING  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING
@@ -42,9 +43,9 @@ phases = [
         {
           name: 'context',
           skills: ['research (observation)'],
-          activity: "Conducting a search for sources / literature research",
-          title: 'Specify context',
-          widget: 'notes'
+          activity: "Conducting a search for sources/ literature research",
+          title: 'Collect background info from internet',
+          widget: 'bookmarks'
         },
         {
           name: 'existing knowledge',
@@ -367,7 +368,8 @@ mapper = {
   'reflection' => 'reflection',
   'discussion' => 'group_forum_topics',
   'data_collection' => 'wespot_arlearn',
-  'fca' => 'wespot_fca'
+  'fca' => 'wespot_fca',
+  'bookmarks' => 'bookmarks'
 }
 
 puts "FRIENDLY REMINDER: you shouldn't change task names because the widget (activity) IDs are generated from them. You haven't right?"
@@ -385,6 +387,7 @@ phases.each_with_index do |phase, index|
     end
     activites << act
     task[:activity_id] = act
+    task[:skills] = task[:skills].map { |skill| skill.gsub(/\(.*\)/, "").strip }.uniq
     task[:activity] = task[:activity].capitalize
     if task[:widget].to_s != ''
       result = mapper[task[:widget]]

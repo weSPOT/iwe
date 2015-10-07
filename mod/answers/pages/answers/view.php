@@ -43,8 +43,10 @@ if (elgg_instanceof($question, 'object', 'question')) {
 } else {
 
 	// Display the 'post not found' page instead
-	$body = elgg_view('answers/notfound');
-	$title = elgg_echo('answers:notfound');
+// 	$body = elgg_view('answers/notfound');
+// 	$title = elgg_echo('answers:notfound');
+	register_error(elgg_echo("answers:notfound"));
+	forward(REFERER);
 }
 
 echo elgg_view_page($title, $body);

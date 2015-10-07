@@ -87,7 +87,7 @@ function tabbed_profile_draw_group_profile($profile) {
   }
 
 	if (group_gatekeeper(false) && $profile->group_sidebar == 'yes') {
-		$sidebar = '';
+		$sidebar = elgg_view('groups/sidebar/external_tools', array('entity' => $group));
 		if (elgg_is_active_plugin('wespot_medoky')) {
 			$sidebar .= elgg_view('wespot_medoky/sidebar', array('entity' => $group));
 		}

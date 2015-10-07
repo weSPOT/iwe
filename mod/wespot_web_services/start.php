@@ -107,7 +107,7 @@ function inquiry_activities($inquiry_id, $phase = null) {
 
     elgg_set_ignore_access(true);
 
-    $result = activities_for_api(enabled_activities($inquiry_id, $phase));
+    $result = activities_for_api($inquiry_id, enabled_activities($inquiry_id, $phase));
 
     elgg_set_ignore_access(false);
 
@@ -180,12 +180,14 @@ function activities_per_skill($inquiry_id, $skill_ids) {
         $activities_per_skill[$skill_id] = Array();
     }
 
+    $data = data_by_activity_ids();
+
     foreach($phases_data as $phase) {
         foreach($phase['tasks'] as $task) {
             if(in_array($task['activity_id'], $activities)) {
                 foreach($task['skills'] as $skill) {
                     if(in_array(substr(md5($skill), 0, 5), $skills)) {
-                        array_push($activities_per_skill[substr(md5($skill), 0, 5)], activity_for_api_form_task($task));
+                        array_push($activities_per_skill[substr(md5($skill), 0, 5)], activity_for_api_form_task($inquiry_id, $data[$task['activity_id']]));
                     }
                 }
             }

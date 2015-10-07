@@ -34,36 +34,43 @@ function get_activity_name($activity_id) {
 function data_by_activity_ids() {
     global $phases_data;
 
-    $data = Array();
+    global $activity_data;
 
-    foreach($phases_data as $phase) {
-        foreach ($phase['tasks'] as $task) {
-            $task['phase'] = $phase['phase'];
-            $data[$task['activity_id']] = $task;
+    if(!$activity_data) {
+
+        $activity_data = Array();
+
+        foreach ($phases_data as $phase) {
+            foreach ($phase['tasks'] as $task) {
+                $task['phase'] = $phase['phase'];
+                $activity_data[$task['activity_id']] = $task;
+            }
         }
     }
 
-    return $data;
+    return $activity_data;
 }
 
-function activity_for_api_form_task($task) {
+function activity_for_api_form_task($inquiry_id, $task) {
+    $widget = activity_widget($inquiry_id, $task['activity_id']);
     return Array('activity_id' => $task['activity_id'],
         'widget_type' => normalize_widget_type($task['widget']),
         'title' => $task['title'],
         'task' => $task['name'],
         'description' => $task['activity'],
+        'order' => intval($widget->order),
         'phase' => $task['phase']
     );
 }
 
-function activities_for_api($activity_ids) {
+function activities_for_api($inquiry_id, $activity_ids) {
     $data = data_by_activity_ids();
 
     $result = Array();
 
     foreach($activity_ids as $activity_id) {
         $task = $data[$activity_id];
-        array_push($result, activity_for_api_form_task($task));
+        array_push($result, activity_for_api_form_task($inquiry_id, $task));
     }
 
     return $result;
@@ -235,7 +242,7 @@ function enabled_activities($inquiry_id, $_phase = null, $force_all = false) {
                 'relationship' => 'widget_of_profile_tab',
                 'relationship_guid' => $profile->guid,
                 'inverse_relationship' => TRUE,
-                'limit' => 0,
+                'limit' => 0
             ));
 
             foreach ($phase['tasks'] as $task) {
@@ -255,6 +262,41 @@ function enabled_activities($inquiry_id, $_phase = null, $force_all = false) {
     }
 
     return $activities;
+}
+
+function inquiry_widgets($inquiry_id) {
+
+    $widgets = Array();
+
+    $profiles = elgg_get_entities(array('types' => 'object', 'subtypes' => 'tabbed_profile', 'container_guid' => $inquiry_id));
+
+    foreach($profiles as $profile) {
+
+        $widgets = array_merge($widgets, elgg_get_entities_from_relationship(array(
+            'relationship' => 'widget_of_profile_tab',
+            'relationship_guid' => $profile->guid,
+            'inverse_relationship' => TRUE,
+            'limit' => 0
+        )));
+
+    }
+
+    return $widgets;
+}
+
+function activity_widget($inquiry_id, $activity_id) {
+
+    global $inquiry_widgets;
+
+    if(!$inquiry_widgets) {
+        $inquiry_widgets = inquiry_widgets($inquiry_id);
+    }
+
+    foreach ($inquiry_widgets as $w) {
+        if ($w->activity_id == $activity_id) {
+            return $w;
+        }
+    }
 }
 
 //get all skills that are possible to practice for a given phase

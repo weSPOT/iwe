@@ -5,8 +5,7 @@
       {
         "name": "embedding",
         "skills": [
-          "critical thinking",
-          "critical thinking (comprehension)"
+          "critical thinking"
         ],
         "activity": "Providing a wonder-moment, a 'my theory is' (idea) and/or formulating a good hypothesis",
         "title": "Wonder moment",
@@ -17,18 +16,18 @@
       {
         "name": "context",
         "skills": [
-          "research (observation)"
+          "research"
         ],
-        "activity": "Conducting a search for sources / literature research",
-        "title": "Specify context",
-        "widget": "notes",
+        "activity": "Conducting a search for sources/ literature research",
+        "title": "Collect background info from internet",
+        "widget": "bookmarks",
         "activity_id": "34c01",
         "order": 2
       },
       {
         "name": "existing knowledge",
         "skills": [
-          "information literacy (existing knowledge, learning, argumentation)"
+          "information literacy"
         ],
         "activity": "Literature research/ describing 'what we (already) know'",
         "title": "Existing knowledge",
@@ -39,7 +38,7 @@
       {
         "name": "mental representation",
         "skills": [
-          "critical thinking (comprehension)",
+          "critical thinking",
           "metacognitive"
         ],
         "activity": "Concept mapping",
@@ -51,9 +50,9 @@
       {
         "name": "language",
         "skills": [
-          "critical thinking (comprehension, argumentation)",
-          "information literacy (existing knowledge, learning, argumentation)",
-          "communication (language)"
+          "critical thinking",
+          "information literacy",
+          "communication"
         ],
         "activity": "Concept defining",
         "title": "Definitions of concepts",
@@ -78,8 +77,7 @@
         "name": "reflection on question",
         "skills": [
           "critical thinking",
-          "metacognitive",
-          "critical thinking (evaluation)"
+          "metacognitive"
         ],
         "activity": "Understanding different kinds of scientific questions and examining and evaluating this aspect of the learning experience",
         "title": "Phase 1 Reflection",
@@ -97,7 +95,7 @@
       {
         "name": "indicators",
         "skills": [
-          "information literacy (existing kowledge, learning, argumentation)"
+          "information literacy"
         ],
         "activity": "Coming up with indicators for concepts that can be measured to develop or test ideas (and relationships among them)",
         "title": "Indicators for measuring",
@@ -109,8 +107,7 @@
         "name": "predictions",
         "skills": [
           "critical thinking",
-          "analytical",
-          "critical thinking (inferring)"
+          "analytical"
         ],
         "activity": "Formulating hypotheses and coming up with alternative hypotheses",
         "title": "Prediction",
@@ -121,7 +118,7 @@
       {
         "name": "resources",
         "skills": [
-          "information literacy (existing knowledge, learning)"
+          "information literacy"
         ],
         "activity": "Come up with resources and ways how to measure/ instruments (qualitative and quantitative)",
         "title": "Planning the method",
@@ -133,7 +130,7 @@
         "name": "methodology",
         "skills": [
           "critical thinking",
-          "research (observation)"
+          "research"
         ],
         "activity": "Set up experiments to test hypotheses or set up other inquiry procedure",
         "title": "Methodology",
@@ -144,7 +141,7 @@
       {
         "name": "ethics",
         "skills": [
-          "information literacy (existing knowledge, learning)"
+          "information literacy"
         ],
         "activity": "Showing ethical concern within research setup",
         "title": "Ethical concerns",
@@ -157,8 +154,7 @@
         "name": "reflection on operationalisation",
         "skills": [
           "critical thinking",
-          "metacognitive",
-          "critical thinking (evaluation)"
+          "metacognitive"
         ],
         "activity": "Checking and coming up with alternative operationalisations and methods, and examining and evaluating this aspect of the learning experience",
         "title": "Phase 2 Reflection",
@@ -176,9 +172,9 @@
       {
         "name": "information foraging",
         "skills": [
-          "information literacy (exisiting knowledge, learning)",
+          "information literacy",
           "computer/technical",
-          "research (scientific)"
+          "research"
         ],
         "activity": "Collecting data with (measurable) indicators to develop or test ideas/beliefs",
         "title": "Collect information",
@@ -189,8 +185,7 @@
       {
         "name": "systematic observation",
         "skills": [
-          "research (observation)",
-          "research (experimentation)"
+          "research"
         ],
         "activity": "Using authoritative resources, systematic measuring of qualitative and quantitative measures (controlling the experiment to minimize alternative influences)",
         "title": "Systematic data collection",
@@ -201,8 +196,7 @@
       {
         "name": "experimentation",
         "skills": [
-          "research",
-          "research (experimentation)"
+          "research"
         ],
         "activity": "Testing a hypothesis/ideas",
         "title": "Description of experiment",
@@ -247,9 +241,8 @@
       {
         "name": "documentation",
         "skills": [
-          "communication (language)",
-          "computer/technical",
-          "communication (writing)"
+          "communication",
+          "computer/technical"
         ],
         "activity": "Careful record keeping of methods and findings",
         "title": "Followed data collection methods",
@@ -262,8 +255,7 @@
         "name": "reflection on data collection",
         "skills": [
           "critical thinking",
-          "metacognitive",
-          "critical thinking (evaluation)"
+          "metacognitive"
         ],
         "activity": "Reflecting on what knowledge was gained and what has not been collected yet, and examining and evaluating this aspect of the learning experience",
         "title": "Phase 3 Reflection",
@@ -281,9 +273,7 @@
       {
         "name": "quantitative",
         "skills": [
-          "analytical (quantitative analysis)",
-          "analytical (statistical)",
-          "analytical (mathematical)"
+          "analytical"
         ],
         "activity": "Processing measures taken",
         "title": "Calculations done on data",
@@ -294,9 +284,7 @@
       {
         "name": "qualitative",
         "skills": [
-          "analytical (statistical)",
-          "analytical (mathematical)",
-          "analytical (qualitative analysis)"
+          "analytical"
         ],
         "activity": "Processing the measured perceptions of phenomena, e.g. extracting theme's, clustering",
         "title": "Procedure of categorizing data",
@@ -318,7 +306,7 @@
       {
         "name": "visualisation",
         "skills": [
-          "critical thinking (comprehension)",
+          "critical thinking",
           "computer/technical"
         ],
         "activity": "Using graphs or other visualisations",
@@ -332,7 +320,6 @@
         "name": "reflection on data analysis",
         "skills": [
           "critical thinking",
-          "critical thinking(evaluation)",
           "metacognitive"
         ],
         "activity": "Checking the analyses and coming up with alternatives, and examining and evaluating this aspect of the learning experience",
@@ -351,10 +338,9 @@
       {
         "name": "embedding",
         "skills": [
-          "critical thinking (comprehension)",
-          "information literacy (existing knowledge, learning)",
-          "critical thinking (inferring)",
-          "analytical (classification)"
+          "critical thinking",
+          "information literacy",
+          "analytical"
         ],
         "activity": "Interpreting findings in light of previous knowledge",
         "title": "Fit of findings fit with existing knowledge",
@@ -365,10 +351,9 @@
       {
         "name": "confirmation/falsification",
         "skills": [
-          "critical thinking (evaluation)",
-          "research (experimentation)",
-          "analytical (statistical)",
-          "analytical (mathematical)"
+          "critical thinking",
+          "research",
+          "analytical"
         ],
         "activity": "Judging evidence and counterevidence",
         "title": "Counterevidence",
@@ -392,8 +377,7 @@
         "name": "reflection of interpretation",
         "skills": [
           "critical thinking",
-          "metacognitive",
-          "critical thinking (evaluation)"
+          "metacognitive"
         ],
         "activity": "Checking the interpretation (process) and coming up with alternatives, and examining and evaluating this aspect of the learning experience",
         "title": "Phase 5 Reflections",
@@ -411,8 +395,7 @@
       {
         "name": "writing up",
         "skills": [
-          "communication (language)",
-          "communication (writing)"
+          "communication"
         ],
         "activity": "Presenting the findings in clear, written form",
         "title": "Conclusion",
@@ -423,8 +406,7 @@
       {
         "name": "strategy",
         "skills": [
-          "research (planning)",
-          "research (organisation)"
+          "research"
         ],
         "activity": "Considering impact, content, routes and stakeholders",
         "title": "Impact, stakeholders",
@@ -436,8 +418,7 @@
         "name": "audience",
         "skills": [
           "analytical",
-          "analytical (classification)",
-          "research (planning)"
+          "research"
         ],
         "activity": "Determining the audience and adjusting presentation mode accordingly",
         "title": "Describe the kind of audiences you will present findings to",
@@ -485,8 +466,7 @@
         "name": "reflection",
         "skills": [
           "critical thinking",
-          "metacognitive",
-          "critical thinking (evaluation)"
+          "metacognitive"
         ],
         "activity": "Checking the method of communication and coming up with alternative approaches, and examining and evaluating this aspect of the learning experience",
         "title": "Phase 6 Reflection",

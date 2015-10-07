@@ -3,14 +3,14 @@
 $id = 'widget-title-' . $vars['entity']->guid;
 
 // title input
-$options = array(
-	'name' => 'params[title]',
-	'value' => $vars['entity']->title,
-	'id' => $id,
-);
-
-echo elgg_echo("golab_widget:title");
-echo elgg_view('input/text', $options) . "<br><br>";
+// $options = array(
+// 	'name' => 'params[title]',
+// 	'value' => $vars['entity']->title,
+// 	'id' => $id,
+// );
+// 
+// echo elgg_echo("golab_widget:title");
+// echo elgg_view('input/text', $options) . "<br><br>";
 
 
 // url input
@@ -37,6 +37,7 @@ echo elgg_echo('golab_widget:where');
 ?>
 
 
+<!-- 
 <script>
 // live update of the widget title
 $(document).ready( function() {
@@ -46,3 +47,4 @@ $(document).ready( function() {
 	});
 });
 </script>
+ -->

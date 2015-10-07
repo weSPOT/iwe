@@ -1,24 +1,30 @@
+
+
 .clearfix:after {
-content: ".";
-display: block;
-clear: both;
-visibility: hidden;
-line-height: 0;
-height: 0;
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
 }
 
 .clearfix {
-display: inline-block;
+  display: inline-block;
 }
 
 html[xmlns] .clearfix {
-display: block;
+  display: block;
 }
 
 * html .clearfix {
-height: 1%;
+  height: 1%;
 }
 
+
+.access_selector {
+  display: none;
+}
 
 .configuration {
     margin-top: 15px;

@@ -25,7 +25,7 @@ $guid = elgg_extract('guid', $vars, null);
 	<label><?php echo elgg_echo('tags'); ?></label>
 	<?php echo elgg_view('input/tags', array('name' => 'tags', 'value' => $tags)); ?>
 </div>
-<div>
+<div class='access_selector'>
     <label><?php echo elgg_echo("groups:topicstatus"); ?></label><br />
 	<?php
 		echo elgg_view('input/dropdown', array(
@@ -38,7 +38,7 @@ $guid = elgg_extract('guid', $vars, null);
 		));
 	?>
 </div>
-<div>
+<div class='access_selector'>
 	<label><?php echo elgg_echo('access'); ?></label><br />
 	<?php echo elgg_view('input/access', array('name' => 'access_id', 'value' => $access_id)); ?>
 </div>

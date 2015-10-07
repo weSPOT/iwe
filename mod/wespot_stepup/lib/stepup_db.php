@@ -90,7 +90,7 @@ function process_requests($drop_table = false) {
 
     $success_count = 0;
 
-    $localhost = strtolower($_SERVER[HTTP_HOST]) == 'localhost';
+    $localhost = strtolower($_SERVER['HTTP_HOST']) == 'localhost';
 
     if($localhost) {
         $conn->exec("DELETE FROM $stepup_table");
@@ -154,7 +154,7 @@ function get_db_contents() {
     global $stepup_table;
     $conn = get_db_connection();
 
-    $query = $conn->query("SELECT * FROM $stepup_table ORDER BY created_at DESC");
+    $query = $conn->query("SELECT * FROM $stepup_table ORDER BY id DESC");
     $query->setFetchMode(PDO::FETCH_ASSOC);
     $data = $query->fetchAll();
 

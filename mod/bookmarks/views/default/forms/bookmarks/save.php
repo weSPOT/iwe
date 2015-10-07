@@ -40,7 +40,13 @@ if ($categories) {
 }
 
 ?>
-<div>
+
+<?php
+  echo elgg_view('input/hidden', array('name' => 'phase', 'value' => $_GET['phase']));
+  echo elgg_view('input/hidden', array('name' => 'activity_id', 'value' => $_GET['activity_id']));
+?>
+
+<div class='access_selector'>
 	<label><?php echo elgg_echo('access'); ?></label><br />
 	<?php echo elgg_view('input/access', array('name' => 'access_id', 'value' => $access_id)); ?>
 </div>

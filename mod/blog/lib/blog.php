@@ -31,14 +31,14 @@ function blog_get_page_content_read($guid = NULL) {
 
 	$container = $blog->getContainerEntity();
 	if (elgg_instanceof($container, 'group')) {
-		elgg_push_breadcrumb(elgg_echo('blog:title:user_blogs', array($container->name)), "blog/group/$container->guid/all");
+		elgg_push_breadcrumb(elgg_echo('blog:title:user_blogs', array($container->name)), "blog/group/$container->guid/all?phase=" . $blog->phase . '&activity_id=' . $blog->activity_id);
 	} else {
 		elgg_push_breadcrumb(elgg_echo('blog:title:user_blogs', array($container->name)), "blog/owner/$container->username");
 	}
 
 	elgg_push_breadcrumb($blog->title);
-	
-	elgg_register_title_button();
+
+	elgg_register_title_button(null, 'add', 'phase='.$blog->phase.'&activity_id='.$blog->activity_id);
 	
 	$return['content'] = elgg_view_entity($blog, array('full_view' => true));
 	// check to see if we should allow comments
@@ -60,6 +60,9 @@ function blog_get_page_content_list($container_guid = NULL) {
 	$return = array();
 
 	$return['filter_context'] = $container_guid ? 'mine' : 'all';
+
+	$phase = $_GET['phase'];
+	$activity_id = $_GET['activity_id'];
 
 	$options = array(
 		'type' => 'object',
@@ -97,7 +100,7 @@ function blog_get_page_content_list($container_guid = NULL) {
 		elgg_push_breadcrumb(elgg_echo('blog:blogs'));
 	}
 
-	elgg_register_title_button();
+	elgg_register_title_button(null, 'add', 'phase='.$phase.'&activity_id='.$activity_id);
 
 	// show all posts for admin or users looking at their own blogs
 	// show only published posts for other users.
@@ -113,7 +116,11 @@ function blog_get_page_content_list($container_guid = NULL) {
 		);
 	}
 
-	$list = elgg_list_entities_from_metadata($options);
+	$entities = array_filter(elgg_get_entities_from_metadata($options), function($element) use ($phase, $activity_id) {
+		return ($element->phase == $phase || (!$element->phase && $phase == 1)) && ($element->activity_id == $activity_id || (!$element->activity_id && $phase == 1)); });
+
+	$list = elgg_view_entity_list($entities, $options);
+
 	if (!$list) {
 		$return['content'] = elgg_echo('blog:none');
 	} else {

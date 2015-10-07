@@ -62,7 +62,7 @@ header("Content-type: text/html; charset=UTF-8");
 	 instructions how to enable JavaScript in your web browser</a>.
 	 </strong>
 	</noscript>
-
+	 
 	<div class="elgg-page-messages">
 		<?php echo $messages; ?>
 	</div>

@@ -7,7 +7,13 @@ $variables = elgg_get_config('wespot_mindmeister');
 
 foreach ($variables as $name => $type) {
 ?>
-<div>
+ <?php
+   if ($type == 'access' || $type == 'write_access') {
+     echo "<div class='access_selector'>";
+   } else {
+     echo '<div>';
+   }
+ ?>
 	<label><?php echo elgg_echo("wespot_mindmeister:$name") ?></label>
 	<?php
 		if ($type != 'longtext') {

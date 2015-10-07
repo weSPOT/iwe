@@ -56,9 +56,6 @@ function groups_init() {
 //  add_group_tool_option('activity', elgg_echo('groups:enableactivity'), true);
   elgg_extend_view('groups/tool_latest', 'groups/profile/activity_module');
 
-  // add group summary option
-  add_group_tool_option('summary', elgg_echo('groups:enablesummary'), false);
-
   // add link to owner block
   elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'groups_activity_owner_block_menu');
 
@@ -356,12 +353,12 @@ function groups_icon_url_override($hook, $type, $returnvalue, $params) {
  * Add owner block link
  */
 function groups_activity_owner_block_menu($hook, $type, $return, $params) {
-  if ((elgg_instanceof($params['entity'], 'group')) && (is_group_member ( $params['entity']->guid, elgg_get_logged_in_user_guid () ))) {
-//    if ($params['entity']->activity_enable != "no") {
+  if (elgg_instanceof($params['entity'], 'group')) {
+    if ($params['entity']->activity_enable != "no") {
       $url = "groups/activity/{$params['entity']->guid}";
       $item = new ElggMenuItem('activity', elgg_echo('groups:activity'), $url);
       $return[] = $item;
-//    }
+    }
   }
 
   return $return;
@@ -572,9 +569,13 @@ function groups_write_acl_plugin_hook($hook, $entity_type, $returnvalue, $params
   // only insert group access for current group
   if ($page_owner instanceof ElggGroup) {
     if ($page_owner->canWriteToContainer($user_guid)) {
+      // Note: inquiry option is set HERE!!!
       $returnvalue[$page_owner->group_acl] = elgg_echo('groups:group') . ': ' . $page_owner->name;
 
+      unset($returnvalue[ACCESS_PRIVATE]);
       unset($returnvalue[ACCESS_FRIENDS]);
+      unset($returnvalue[ACCESS_LOGGED_IN]);
+      unset($returnvalue[ACCESS_PUBLIC]);
     }
   } else {
     // if the user owns the group, remove all access collections manually
@@ -849,6 +850,7 @@ function discussion_page_handler($page) {
       foreach ($profiles as $profile) {
         if($profile->order == $phase) {
           $tab_url = '/tab/' . $profile->guid;
+          break;
         }
       }
     }

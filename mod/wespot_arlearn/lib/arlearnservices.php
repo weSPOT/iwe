@@ -7,7 +7,7 @@
 
 /** Turn debugging message on and off */
 global $debug_wespot_arlearn;
-$debug_wespot_arlearn = true;
+$debug_wespot_arlearn = false;
 
 /** The url for the ARLearn service calls */
 global $serviceRootARLearn;

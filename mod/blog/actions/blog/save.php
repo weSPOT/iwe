@@ -25,6 +25,14 @@ $user = elgg_get_logged_in_user_entity();
 // edit or create a new entity
 $guid = get_input('guid');
 
+if(get_input('phase')) {
+	$phase = (int) get_input('phase');
+}
+
+if(get_input('activity_id')) {
+	$activity_id = get_input('activity_id');
+}
+
 if ($guid) {
 	$entity = get_entity($guid);
 	if (elgg_instanceof($entity, 'object', 'blog') && $entity->canEdit()) {
@@ -40,7 +48,17 @@ if ($guid) {
 } else {
 	$blog = new ElggBlog();
 	$blog->subtype = 'blog';
+	$blog->phase = $phase;
+	$blog->activity_id = $activity_id;
 	$new_post = TRUE;
+}
+
+if(get_input('recommended_tags')) {
+	$blog->recommended_tags = get_input('recommended_tags');
+}
+
+if(get_input('tag_recommender_algorithm')) {
+	$blog->tag_recommender_algorithm = get_input('tag_recommender_algorithm');
 }
 
 // set the previous status for the hooks to update the time_created and river entries

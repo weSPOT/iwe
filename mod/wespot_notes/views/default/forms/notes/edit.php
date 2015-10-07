@@ -34,7 +34,13 @@ foreach ($variables as $name => $type) {
 	}
 
 ?>
-<div>
+  <?php
+    if ($type == 'access' || $type == 'write_access') {
+      echo "<div class='access_selector'>";
+    } else {
+      echo '<div>';
+    }
+  ?>
 	<label><?php echo elgg_echo("notes:$name") ?></label>
 	<?php
 		if ($type != 'longtext') {

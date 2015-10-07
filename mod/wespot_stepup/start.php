@@ -140,7 +140,7 @@ function post_data($url, $verb, $context, $value = null) {
     $time = time();
 
     foreach ($last_requests as $request) {
-        if($request[1] > $time - 5 && $request[0] == $sha) { # if same request happened in last 5s, we have a duplicate
+        if($request[1] > $time - 3 && $request[0] == $sha) { # if same request happened in last 3s, we have a duplicate
             $duplicate = true;
             break;
         }
@@ -159,7 +159,7 @@ function post_data($url, $verb, $context, $value = null) {
     $body_array['endtime'] = $time;
     $body = json_encode($body_array);
 
-    array_push($last_requests, array($sha, $time));
+    array_push($last_requests, array($sha, time()));
     if(count($last_requests) > 15) {
         array_shift($last_requests);
     }
@@ -241,7 +241,7 @@ function plugin_from_subtype($handle) {
 }
 
 function is_standard_plugin($plugin) {
-    $standard_plugins = array("hypothesis", "notes", "reflection", "conclusions", "page", "question", "groupforumtopic", "mindmeistermap", "arlearntask", "file", "blog");
+    $standard_plugins = array("hypothesis", "notes", "reflection", "conclusions", "page", "question", "groupforumtopic", "mindmeistermap", "arlearntask", "file", "blog", "bookmarks");
     return in_array($plugin, $standard_plugins);
 }
 
@@ -377,6 +377,8 @@ function create_object($event, $type, $object) {
         if($plugin == 'hypothesis' || $plugin == 'question' || $plugin == 'groupforumtopic' || $plugin == 'conclusions' || $plugin == 'reflection' ||
             $plugin == 'notes' || $plugin == 'page' || $plugin == 'arlearntask' || $plugin == 'file') {
             $value['tags'] = $object->tags;
+            $value['recommended_tags'] = $object->recommended_tags;
+            $value['tag_recommender_algorithm'] = $object->tag_recommender_algorithm;
         }
 
         if($plugin == 'file') {

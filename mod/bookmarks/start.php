@@ -93,7 +93,7 @@ function bookmarks_page_handler($page) {
 		$page[0] = 'all';
 	}
 
-	elgg_push_breadcrumb(elgg_echo('bookmarks'), 'bookmarks/all');
+	//elgg_push_breadcrumb(elgg_echo('bookmarks'), 'bookmarks/all');
 
 	// old group usernames
 	if (substr_count($page[0], 'group:')) {
@@ -216,7 +216,7 @@ function bookmark_url($entity) {
 
 /**
  * Add a menu item to an ownerblock
- * 
+ *
  * @param string $hook
  * @param string $type
  * @param array  $return
@@ -282,7 +282,7 @@ function bookmarks_page_menu($hook, $type, $return, $params) {
 			if (!$page_owner) {
 				$page_owner = elgg_get_logged_in_user_entity();
 			}
-			
+
 			if ($page_owner instanceof ElggGroup) {
 				$title = elgg_echo('bookmarks:bookmarklet:group');
 			} else {

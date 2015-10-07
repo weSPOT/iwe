@@ -14,6 +14,14 @@ $guid = get_input('guid');
 $share = get_input('share');
 $container_guid = get_input('container_guid', elgg_get_logged_in_user_guid());
 
+if(get_input('phase')) {
+	$phase = (int) get_input('phase');
+}
+
+if(get_input('activity_id')) {
+  $activity_id = get_input('activity_id');
+}
+
 elgg_make_sticky_form('bookmarks');
 
 // don't use elgg_normalize_url() because we don't want
@@ -48,6 +56,8 @@ if ($guid == 0) {
 	$bookmark = new ElggObject;
 	$bookmark->subtype = "bookmarks";
 	$bookmark->container_guid = (int)get_input('container_guid', $_SESSION['user']->getGUID());
+	$bookmark->phase = $phase;
+	$bookmark->activity_id = $activity_id;
 	$new = true;
 } else {
 	$bookmark = get_entity($guid);
@@ -55,6 +65,14 @@ if ($guid == 0) {
 		system_message(elgg_echo('bookmarks:save:failed'));
 		forward(REFERRER);
 	}
+}
+
+if(get_input('recommended_tags')) {
+	$bookmark->recommended_tags = get_input('recommended_tags');
+}
+
+if(get_input('tag_recommender_algorithm')) {
+	$bookmark->tag_recommender_algorithm = get_input('tag_recommender_algorithm');
 }
 
 $tagarray = string_to_tag_array($tags);

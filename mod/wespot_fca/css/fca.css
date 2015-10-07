@@ -115,7 +115,7 @@
 
 /****TABLE****/
 #matrix_attr_head {
-  max-width: 545px;
+  max-width: 780px;
 }
 
 #matrix_obj_head {
@@ -124,7 +124,7 @@
 
 #matrix_main {
   max-height: 475px;
-  max-width: 560px;
+  max-width: 800px;
   overflow: auto;
   margin-bottom: -20px;
   margin-right: -35px;

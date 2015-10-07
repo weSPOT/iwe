@@ -63,10 +63,10 @@ owned_groups=str.split(',');
 
 $(function(){
 // production server
-//logic.init("<?php echo $basedir; ?>","http://css-kti.tugraz.at:8080/MEDoKyService/rest/FCATool/", <?php echo json_encode($files_json); ?>, <?php echo json_encode($grps); ?>, <?php echo json_encode($owners); ?> );
+logic.init("<?php echo $basedir; ?>","http://css-kti.tugraz.at:8080/MEDoKyService/rest/FCATool/", <?php echo json_encode($files_json); ?>, <?php echo json_encode($grps); ?>, <?php echo json_encode($owners); ?> );
 
 // test server
-logic.init("<?php echo $basedir; ?>","http://css-kmi.tugraz.at/MEDoKyService/rest/FCATool/", <?php echo json_encode($files_json); ?>, <?php echo json_encode($grps); ?>, <?php echo json_encode($owners); ?> );
+//logic.init("<?php echo $basedir; ?>","http://css-kmi.tugraz.at/MEDoKyService/rest/FCATool/", <?php echo json_encode($files_json); ?>, <?php echo json_encode($grps); ?>, <?php echo json_encode($owners); ?> );
 //logic.init("<?php echo $basedir; ?>","http://192.168.1.1:8080/MEDoKyService/rest/FCATool/", <?php echo json_encode($files_json); ?>, <?php echo json_encode($grps); ?>, <?php echo json_encode($owners); ?> );
 });
 </script>

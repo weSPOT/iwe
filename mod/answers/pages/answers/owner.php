@@ -3,7 +3,7 @@
  * Owner's questions
  */
 
-$sort = get_input('sort', 'newest');
+$sort = get_input('sort', 'votes');
 
 // Get the current page's owner
 $page_owner = elgg_get_page_owner_entity();

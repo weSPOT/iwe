@@ -17,16 +17,16 @@ $filter_context = elgg_extract('sort', $vars, 'newest');
 
 // generate a list of default tabs
 $tabs = array(
-	'newest' => array(
-		'text' => elgg_echo('answers:newest'),
-		'href' => "?phase=" . $vars['phase'] . '&activity_id=' . $vars['activity_id'] . "&sort=newest",
-		'selected' => ($filter_context == 'newest'),
-		'priority' => 200,
-	),
 	'votes' => array(
 		'text' => elgg_echo('answers:votes'),
 		'href' => "?phase=" . $vars['phase'] . '&activity_id=' . $vars['activity_id'] . "&sort=votes",
 		'selected' => ($filter_context == 'votes'),
+		'priority' => 200,
+	),
+	'newest' => array(
+		'text' => elgg_echo('answers:newest'),
+		'href' => "?phase=" . $vars['phase'] . '&activity_id=' . $vars['activity_id'] . "&sort=newest",
+		'selected' => ($filter_context == 'newest'),
 		'priority' => 200,
 	),
 	'activity' => array(

@@ -14,7 +14,8 @@ if(!elgg_instanceof($owner, 'group')) {
 	return false;
 }
 
-$limit = elgg_extract('limit', $vars, 10);
+//$limit = elgg_extract('limit', $vars, 10);
+$limit = false;
 
 $all_link = elgg_view('output/url', array(
 	'href' => 'subgroups/owner/' . $owner->guid,
@@ -29,7 +30,8 @@ $params = array(
 	'types' => 'group',
 	'list_type' => 'gallery',
 	'gallery_class' => 'elgg-gallery-groups',
-	'full_view' => false
+	'full_view' => false,
+	'pagination' => false
 );
 
 $params['count'] = true;

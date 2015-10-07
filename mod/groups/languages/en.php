@@ -118,6 +118,7 @@ View and reply to the discussion:
 	'groups:member' => "members",
 	'groups:searchtag' => "Search for groups by tag",
 	'groups:listlanguage' => "List groups by language",
+	'groups:external_tools' => "External tools",
 
 	'groups:more' => 'More groups',
 	'groups:none' => 'No groups',

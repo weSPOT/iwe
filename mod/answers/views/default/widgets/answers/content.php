@@ -5,6 +5,8 @@
 
 $num = $vars['entity']->num_display;
 
+elgg_load_library('answers:utilities');
+
 // we get this here when saving widget preferences:
 $phase = (int) $vars['entity']->phase;
 
@@ -35,9 +37,9 @@ $get_content = function ($options) use ($phase, $activity_id) {
     };
     if($options['count']) { # because of how elgg_list_entities works
         $options['count'] = FALSE;
-        return count(array_filter(elgg_get_entities($options), $filter));
+        return count(array_filter(answers_get_sorted_questions($options['container_guid'], 'votes'), $filter));
     } else {
-        return array_filter(elgg_get_entities($options), $filter);
+        return array_filter(answers_get_sorted_questions($options['container_guid'], 'votes'), $filter);
     }
 };
 

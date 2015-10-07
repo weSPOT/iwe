@@ -3,11 +3,14 @@
  * History of revisions of an ARLearn data collection task
  */
 
+elgg_load_library('elgg:wespot_arlearnservices');
+global $debug_wespot_arlearn;
+$debug_wespot_arlearn = true;
+
 $task_guid = get_input('guid');
 $task = get_entity($task_guid);
 
 if (!$task) {
-	elgg_load_library('elgg:wespot_arlearnservices');
 	debugWespotARLearn("The entity with guid $task_guid could not be retrieved.");
 	register_error(elgg_echo('wespot_arlearn:revision:status:failure'));
 	forward(REFERER);

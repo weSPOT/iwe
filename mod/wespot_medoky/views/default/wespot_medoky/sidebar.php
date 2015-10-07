@@ -3,6 +3,7 @@
 $group = elgg_get_page_owner_entity();
 $isOwner = false;
 $operators= get_group_operators($group);
+$globalUserId = elgg_get_plugin_user_setting('uid', elgg_get_logged_in_user_guid(), 'elgg_social_login');
 
 foreach ($operators as $op){
 	if ($op->getGUID()==elgg_get_logged_in_user_guid()){
@@ -23,7 +24,9 @@ if (!$isOwner) {?>
 <script type="text/javascript">
 $(function(){
   if(medoky_backend.init("<?php echo $GLOBALS['server']."/MEDoKyService/rest/"; ?>")){
-    medoky_ui.prepareDialogs();
+	logServer_backend.init("<?php echo $GLOBALS['server']."/weSpotLogServer/rest/v1/contentData/"; ?>");  
+	console.log("userId in sidebar php = "+"<?php echo $globalUserId; ?>");
+    medoky_ui.prepareDialogs("<?php echo $globalUserId; ?>");
     medoky.fetchRecommendations(medoky.resetView);
     setInterval(medoky.pollRecommendations, 150000);
   }
@@ -40,10 +43,9 @@ $(function(){
     <li id="medoky_sidebar_recommendations_LearningResource"></li>
   </ul>
 </div>
-<div id="dia_medoky_detail" class="medoky_main" title="Your Recommendations">
+<div id="dia_medoky_detail" class="medoky_main">
   <div id="medoky_recommmendation_detail_header" class="medoky_main"></div>
-  <hr>
-  <ul id="medoky_recommendation_detail_top3" class="medoky_main"></ul>
+  <div id="medoky_recommendation_detail_top3" class="medoky_main"></div>
   <div id="medoky_recommendation_detail_footer" class="medoky_main"></div>
 </div>
 

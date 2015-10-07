@@ -12,16 +12,24 @@ if (!$page_owner) {
 
 elgg_push_breadcrumb($page_owner->name);
 
-elgg_register_title_button();
+$phase = $_GET['phase'];
+$activity_id = $_GET['activity_id'];
 
-$content .= elgg_list_entities(array(
+elgg_register_title_button(null, 'add', 'phase='.$phase.'&activity_id='.$activity_id);
+
+$options = array(
 	'type' => 'object',
 	'subtype' => 'bookmarks',
 	'container_guid' => $page_owner->guid,
 	'limit' => 10,
 	'full_view' => false,
 	'view_toggle_type' => false
-));
+);
+
+$entities = array_filter(elgg_get_entities($options), function($element) use ($phase, $activity_id) {
+	return ($element->phase == $phase || (!$element->phase && $phase == 1)) && ($element->activity_id == $activity_id || (!$element->activity_id && $phase == 1)); });
+
+$content = elgg_view_entity_list($entities, $options);
 
 if (!$content) {
 	$content = elgg_echo('bookmarks:none');
